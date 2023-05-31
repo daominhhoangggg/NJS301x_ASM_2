@@ -83,11 +83,26 @@ exports.postAddRoom = (req, res, next) => {
     maxPeople: data.maxPeople,
     desc: data.desc,
     roomNumbers: data.roomNumbers,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   });
   room
     .save()
     .then(result => {
-      res.send('Room created !');
+      console.log(result);
+      Hotel.findByIdAndUpdate(data.hotel, {
+        $push: { rooms: result._id.toString() },
+      })
+        .then(updatedHotel => {
+          console.log(updatedHotel);
+          return res.status(200).send('Room created and added successfully !!');
+        })
+        .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
+};
+
+//Delete Hotel
+exports.postDeleteHotel = (req, res, next) => {
+  const hotelId = req.body.hotelId;
 };

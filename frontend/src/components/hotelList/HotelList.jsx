@@ -13,6 +13,20 @@ function HotelList({ activeTab, onTabClick }) {
     fetchData();
   });
 
+  const deleteHotel = async e => {
+    const hotelId = e.target.value;
+    const confirmed = window.confirm('Bạn có chắc chắn muốn xóa ?');
+
+    if (confirmed) {
+      try {
+        const repsonse = await axios.post('/delete-hotel', { hotelId });
+        return repsonse;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
     <div className="content">
       <div className="card-large shadow">
@@ -52,7 +66,11 @@ function HotelList({ activeTab, onTabClick }) {
                   <td>{hotel.title}</td>
                   <td>{hotel.city}</td>
                   <td>
-                    <button className="btn btn-outline-danger adjust">
+                    <button
+                      className="btn btn-outline-danger adjust"
+                      onClick={deleteHotel}
+                      value={hotel._id}
+                    >
                       Delete
                     </button>
                   </td>

@@ -23,6 +23,13 @@ const roomSchema = new Schema({
     type: Array,
     required: true,
   },
+  createdAt: {
+    type: Date,
+    required: true,
+  },
+  updatedAt: {
+    type: Date,
+  },
 });
 
 module.exports = mongoose.model('Room', roomSchema);
