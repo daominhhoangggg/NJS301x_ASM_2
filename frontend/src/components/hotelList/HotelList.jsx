@@ -19,8 +19,8 @@ function HotelList({ activeTab, onTabClick }) {
 
     if (confirmed) {
       try {
-        const repsonse = await axios.post('/delete-hotel', { hotelId });
-        return repsonse;
+        const response = await axios.post('/delete-hotel', { hotelId });
+        return alert(response.data);
       } catch (err) {
         console.log(err);
       }

@@ -2,6 +2,7 @@ const Transaction = require('../models/transaction');
 const Hotel = require('../models/hotel');
 const Room = require('../models/room');
 const User = require('../models/user');
+const mongoose = require('mongoose');
 
 //Recent Transacttion
 exports.getRecentTrans = (req, res, next) => {
@@ -104,5 +105,21 @@ exports.postAddRoom = (req, res, next) => {
 
 //Delete Hotel
 exports.postDeleteHotel = (req, res, next) => {
-  const hotelId = req.body.hotelId;
+  const hotelId = new mongoose.Types.ObjectId(req.body.hotelId);
+  Transaction.find({
+    hotel: hotelId,
+  })
+    .then(trans => {
+      if (trans.length <= 0) {
+        return Hotel.findByIdAndDelete(hotelId).then(result => {
+          res.send('HOTEL DELETED SUCCESSFULLY !!');
+        });
+      } else res.send('HOTEL INCLUDE IN A TRANSACTION !!');
+    })
+    .catch(err => console.log(err));
+};
+
+//Delete Room
+exports.postDeleteRoom = (req, res, next) => {
+  const roomId = req.body.roomId;
 };
